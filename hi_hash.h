@@ -60,7 +60,7 @@ int HIHashTable<T>::add(T * t) {
   if (numElems == tableSize) {
     return HASH_TABLE_FULL;
   }
-  // TODO Fill up
+  
   size_t loc = probe(t, 0), i = 0;
   T *tp = t;
   while (table[loc].exists != false) {
@@ -71,7 +71,6 @@ int HIHashTable<T>::add(T * t) {
       loc = probe(tp, i);
     } else if (greater(tp, table[loc].value)) {
       std::swap(tp, table[loc].value);
-      // TODO
       i = table[loc].rank;
       i++;
       loc = probe(tp, i);
@@ -86,8 +85,6 @@ int HIHashTable<T>::add(T * t) {
 
 template <typename T>
 int HIHashTable<T>::exists(T * t) {
-  // TODO Will probing repeat elements?
-  // std::set< size_t > visited;
   for (size_t i = 0; i < tableSize; i++) {
     size_t loc = probe(t, i);
     
@@ -136,11 +133,9 @@ size_t HIHashTable<T>::rank(T *t, size_t loc) {
 template <typename T>
 int HIHashTable<T>::next(size_t loc) {
   int oloc = (loc + 1) % tableSize;
-  // std::cout << oloc << " " << table[oloc].exists << std::endl;
   while (table[oloc].exists) {
     int current_rank = rank(table[oloc].value, (int)oloc);
     int prospective_rank = rank(table[oloc].value, (int)loc);
-    // std::cout << oloc << " " << current_rank << " " << prospective_rank << std::endl;
     if (prospective_rank < current_rank) {
       return oloc;
     }
@@ -152,7 +147,6 @@ int HIHashTable<T>::next(size_t loc) {
 template <typename T>
 int HIHashTable<T>::remove(T *t) {
   int loc = exists(t);
-  // std::cout << "loc: " << loc << std::endl;
   if (loc == ENTRY_NOT_FOUND) {
     return ENTRY_NOT_FOUND;
   }
@@ -160,7 +154,6 @@ int HIHashTable<T>::remove(T *t) {
   int n, x;
   while ((x = next(loc)) != ENTRY_NOT_FOUND) {
     n = x;
-    // std::cout << "n: " << n << std::endl;
     table[loc] = table[n];
     loc = n;
   }
@@ -172,9 +165,5 @@ template <typename T>
 HIHashTable<T>::~HIHashTable() {
   // TODO Fill up
 }
-
-
-
-void test();
 
 #endif
