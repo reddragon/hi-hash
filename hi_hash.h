@@ -158,6 +158,7 @@ int HIHashTable<T>::remove(T *t) {
     loc = n;
   }
   table[loc].exists = false;
+  numElems--;
   return HASH_TABLE_EMPTY;
 }
 
